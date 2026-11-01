@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="options.css">
+  <title>侧边工作台 · 设置</title>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="page-title">侧边工作台 · 设置</h1>
+
+    <section class="card">
+      <h2 class="card-title">主题</h2>
+      <div class="radio-row">
+        <label class="radio">
+          <input type="radio" name="themeMode" value="auto">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>跟随系统</b><em>随系统浅色/深色自动切换</em></span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="themeMode" value="light">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>浅色</b><em>始终浅色</em></span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="themeMode" value="dark">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>深色</b><em>始终深色</em></span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">默认打开方式</h2>
+      <p class="card-sub">新增收藏 / 抓取当前标签页时默认使用的打开方式。</p>
+      <div class="radio-row">
+        <label class="radio">
+          <input type="radio" name="openMode" value="panel">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>在左侧面板内打开</b><em>直接内嵌（部分网站会禁止嵌入）</em></span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="openMode" value="popup">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>在独立小窗打开</b><em>弹出独立浏览器窗口</em></span>
+        </label>
+        <label class="radio">
+          <input type="radio" name="openMode" value="tab">
+          <span class="radio-box"></span>
+          <span class="radio-text"><b>直接新标签页打开</b><em>在主浏览器新标签中打开</em></span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">嵌入失败提示</h2>
+      <p class="card-sub">网站在面板内加载超时或被禁止嵌入时，自动弹出「改用小窗/新标签打开」的提示。</p>
+      <label class="switch-row">
+        <input type="checkbox" id="blockedAutoPrompt">
+        <span class="switch"></span>
+        <span class="switch-label">启用嵌入失败自动提示</span>
+      </label>
+    </section>
+
+    <section class="card note">
+      <h2 class="card-title">麦克风</h2>
+      <p class="card-sub">点击侧边栏的麦克风按钮会新开一个标签页，在那里完成麦克风授权（仅用于给需要麦克风的网页授权）。首次使用需在扩展管理页允许麦克风权限。</p>
+    </section>
+
+    <div id="savedHint" class="saved-hint" hidden>已保存</div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

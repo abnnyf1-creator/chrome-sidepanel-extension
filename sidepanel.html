@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="sidepanel.css">
+  <title>侧边工作台</title>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== 左侧：网页浏览区（主区域） ===== -->
+    <main id="browser">
+      <div id="navBar">
+        <button id="navBack" class="nav-btn" title="返回">‹</button>
+        <button id="navFwd" class="nav-btn" title="前进">›</button>
+        <button id="navReload" class="nav-btn" title="刷新">⟳</button>
+        <div id="addrWrap">
+          <input id="addrBar" type="text" spellcheck="false" placeholder="输入网址后回车">
+        </div>
+        <button id="navPop" class="nav-btn" title="在新标签页打开当前页面">↗</button>
+      </div>
+
+      <div id="frameWrap">
+        <iframe id="viewer" title="网页浏览区" allow="clipboard-read; clipboard-write; fullscreen; microphone"></iframe>
+
+        <div id="emptyState">
+          <div class="empty-inner">
+            <div class="empty-ico">▦</div>
+            <div class="empty-title">还没有打开页面</div>
+            <div class="empty-sub">点击右侧图标栏中的网站图标即可在此打开</div>
+          </div>
+        </div>
+
+        <div id="blockedState" hidden>
+          <div class="blocked-inner">
+            <div class="empty-ico">⚠</div>
+            <div class="empty-title">此网页无法在侧边栏内打开</div>
+            <div class="empty-sub">该网站可能禁止被嵌入，或加载超时。你可以换一种方式打开：</div>
+            <div class="blocked-url" id="blockedUrl"></div>
+            <button id="blkPopup" class="act-btn">在独立小窗打开</button>
+            <button id="blkTab" class="act-btn primary">在新标签页打开</button>
+            <button id="blkRetry" class="act-btn">重试嵌入</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="splitter" title="拖动可调整图标栏宽度"></div>
+
+    <!-- ===== 右侧：竖向网站图标栏 ===== -->
+    <aside id="sidebar">
+      <header id="sideTop">
+        <button id="btnCapture" class="rail-btn" title="抓取当前标签页">
+          <span class="rail-ico">⊕</span>
+        </button>
+        <button id="btnAdd" class="rail-btn" title="手动添加链接">
+          <span class="rail-ico">✎</span>
+        </button>
+        <button id="btnMic" class="rail-btn" title="麦克风权限">
+          <svg class="mic-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+            <path d="M5 11a7 7 0 0 0 14 0"></path>
+            <line x1="12" y1="18" x2="12" y2="21"></line>
+          </svg>
+          <span id="micDot" class="mic-dot" hidden></span>
+        </button>
+      </header>
+
+      <div id="linkList" class="rail-list"></div>
+
+      <footer id="sideFoot">
+        <button id="btnTheme" class="rail-btn" title="切换主题">
+          <span id="themeIcon">◐</span>
+        </button>
+        <button id="btnManage" class="rail-btn" title="管理收藏">
+          <span class="rail-ico">⋯</span>
+        </button>
+      </footer>
+    </aside>
+  </div>
+
+  <!-- ===== 新增 / 编辑链接弹窗 ===== -->
+  <div id="modalMask" class="modal-mask" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <span id="modalTitle">新增收藏</span>
+        <button id="modalClose" class="x-btn" title="关闭">×</button>
+      </div>
+      <div class="modal-body">
+        <label class="field">
+          <span class="field-label">名称</span>
+          <input id="fName" type="text" placeholder="例如：ChatGPT">
+        </label>
+        <label class="field">
+          <span class="field-label">网址</span>
+          <input id="fUrl" type="text" placeholder="https://example.com">
+        </label>
+        <label class="field">
+          <span class="field-label">分组（可选）</span>
+          <input id="fFolder" type="text" placeholder="例如：工作 / 常用 / 娱乐">
+        </label>
+        <div class="field">
+          <span class="field-label">打开方式</span>
+          <div class="radio-row">
+            <label class="radio">
+              <input type="radio" name="openMode" value="panel" checked>
+              <span class="radio-box"></span>
+              <span class="radio-text">
+                <b>在左侧页面内打开</b>
+                <em>所有网站均可直接内嵌（ChatGPT、Claude、Gmail 等）</em>
+              </span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="openMode" value="popup">
+              <span class="radio-box"></span>
+              <span class="radio-text">
+                <b>在独立小窗打开</b>
+                <em>弹出独立浏览器窗口，适合需要大尺寸的页面</em>
+              </span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="openMode" value="tab">
+              <span class="radio-box"></span>
+              <span class="radio-text">
+                <b>直接新标签页打开</b>
+                <em>在主浏览器窗口的新标签中打开</em>
+              </span>
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">单击行为</span>
+          <div class="radio-row">
+            <label class="radio">
+              <input type="radio" name="clickAction" value="single" checked>
+              <span class="radio-box"></span>
+              <span class="radio-text"><b>单击即打开</b><em>单击图标直接执行其打开方式</em></span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="clickAction" value="double">
+              <span class="radio-box"></span>
+              <span class="radio-text"><b>双击才打开</b><em>单击仅选中，双击执行</em></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button id="modalCancel" class="act-btn">取消</button>
+        <button id="modalSave" class="act-btn primary">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 管理模式 ===== -->
+  <div id="manageMask" class="modal-mask" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <span>管理收藏</span>
+        <button id="manageClose" class="x-btn" title="关闭">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="manageList" class="manage-list"></div>
+        <div class="io-row">
+          <button id="btnExport" class="act-btn">导出为 JSON</button>
+          <button id="btnImport" class="act-btn">导入 JSON</button>
+          <input id="importFile" type="file" accept="application/json" hidden>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button id="manageDone" class="act-btn primary">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 麦克风授权/测试页会在新标签页打开（mic-request.html） ===== -->
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

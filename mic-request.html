@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="mic-request.css">
+  <title>麦克风授权</title>
+</head>
+<body>
+  <div class="card">
+    <div class="ico-wrap">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+        <path d="M5 11a7 7 0 0 0 14 0"></path>
+        <line x1="12" y1="18" x2="12" y2="21"></line>
+      </svg>
+    </div>
+    <h1 class="title">麦克风授权</h1>
+    <p id="status" class="status">正在请求麦克风权限…</p>
+    <div class="meter"><div id="level" class="level"></div></div>
+    <p id="device" class="device"></p>
+    <div class="actions">
+      <button id="btnRetry" class="btn ghost">重新检测</button>
+      <button id="btnClose" class="btn primary">关闭此页</button>
+    </div>
+    <p class="hint">授权完成后可关闭本页，侧边栏的麦克风按钮会亮起绿点。</p>
+  </div>
+  <script src="mic-request.js"></script>
+</body>
+</html>
